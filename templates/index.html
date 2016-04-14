@@ -1,0 +1,34 @@
+$def with (entries)
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      table { border-collapse: collapse; }
+      td { border: 1px solid black; }
+    </style>
+  </head>
+  <body>
+    <table cellpadding="5">
+      <tr>
+	<td align="justify">Timestamp</td>
+	<td align="justify">App Name</td>
+	<td align="justify">Username</td>
+	<td align="justify">User App Id</td>
+	<td align="justify">Device Info</td>
+	<td align="justify">Cause</td>
+      </tr>
+      $for entry in entries:
+      <tr>
+	<td align="justify">$entry.Timestamp</td>
+	<td align="justify">$entry.AppName</td>
+	<td align="justify">$entry.Username</td>
+	<td align="justify">$entry.UserAppId</td>
+	<td align="justify">$entry.DeviceInfo</td>
+	<td align="justify">$entry.Cause</td>
+      </tr>
+    </table>
+  </body>
+</html>
+
+
