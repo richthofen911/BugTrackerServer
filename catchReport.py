@@ -10,7 +10,6 @@ urls = (
     '/report', 'report'
 )
 
-
 class log:
     def GET(self, params):
         query_statement = 'select * from crash_log'
@@ -48,16 +47,15 @@ class log:
     
 class report:
     def POST(self):
-        data = web.data().split('&')
-        app_name = data[0][8:]
-        username = data[1][9:]
-        user_app_id = data[2][10:]
-        device_info = data[3][11:]
-        cause = data[4][6:]
+        i = web.input()
+        appname = i.appname
+        username = i.username
+        user_app_id = i.userappid
+        device_info = i.deviceinfo
+        cause = i.cause
         time_formatted = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-        db.insert('crash_log', Timestamp=time_formatted, AppName=app_name, Username=username, UserAppId=user_app_id, DeviceInfo = device_info, Cause=cause)
-
-
+        db.insert('crash_log', Timestamp=time_formatted, AppName=appname, Username=username, UserAppId=user_app_id, DeviceInfo = device_info, Cause=cause)
+        
 if __name__ == "__main__":
     app = web.application(urls, globals())
     app.run()
