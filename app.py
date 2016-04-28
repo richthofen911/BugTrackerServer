@@ -19,7 +19,7 @@ my_db_session = db_session()
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template('index.html')
 
 
 @app.route('/crashtracker/show/<path:query_filter>', methods=['GET'])
