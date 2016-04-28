@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for r in record %}
+    <p>Message:<br>{{ r.message }}</p>
+    Cause: <br>{{ r.cause }}
+{% endfor %}
+
+</body>
+</html>

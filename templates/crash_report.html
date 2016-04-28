@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+          table { border-collapse: collapse; }
+          td { border: 1px solid black; }
+        </style>
+        <title>Crash Report</title>
+    </head>
+    <body>
+        <table cellpadding="5">
+          <tr>
+            <td align="justify">timestamp</td>
+            <td align="justify">appName</td>
+            <td align="justify">username</td>
+            <td align="justify">userappid</td>
+            <td align="justify">deviceinfo</td>
+            <td align="justify">message</td>
+          </tr>
+          {% for entry in entries %}
+              <tr>
+                <td align="justify">{{ entry.timestamp }}</td>
+                <td align="justify">{{ entry.appname }}</td>
+                <td align="justify">{{ entry.username }}</td>
+                <td align="justify">{{ entry.userappid }}</td>
+                <td align="justify">{{ entry.deviceinfo }}</td>
+                <td align="justify">{{ entry.message }} <a href="/crashtracker/show/id/{{ entry.id }}">detail</a></td>
+              </tr>
+         {% endfor %}
+        </table>
+    </body>
+</html>
