@@ -18,8 +18,14 @@ my_db_session = db_session()
 
 
 @app.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
+
+
+@app.route('/signin', methods=['GET', 'POST'])
+def sign_in():
+
+    return render_template('sign_in.html')
 
 
 @app.route('/crashtracker/show/<path:query_filter>', methods=['GET'])
