@@ -24,26 +24,40 @@ def index():
 
 @app.route('/signin', methods=['GET', 'POST'])
 def sign_in():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        # check login info
+        # then redirect to dashboard page
+    elif request.method == 'GET':
+        return render_template('sign_in.html')
 
-    return render_template('sign_in.html')
+
+@app.route('/dashboard', methods=['GET'])
+def show_dashboard():
+    return render_template('dashboard.html')
 
 
 @app.route('/crashtracker/show/<path:query_filter>', methods=['GET'])
 def show_crash_report(query_filter):
     key_value_pair = query_filter.split('/')
     if len(key_value_pair) <= 2:
-        if key_value_pair[0] == 'all':
+        key = key_value_pair[0]
+        if key == 'all':
             result = my_db_session.query(CrashRecord).order_by(CrashRecord.id)
         else:
-            result = my_db_session.query(CrashRecord).filter(getattr(CrashRecord, key_value_pair[0]) == key_value_pair[1])
+            key = getattr(CrashRecord, key_value_pair[0], None)
+            if key is None:
+                return key_value_pair[0] + " is not a column"
+            else:
+                result = my_db_session.query(CrashRecord).filter(key == key_value_pair[1])
         if result.count() == 0:
             return 'no record found'
+        elif key == 'id':
+            return render_template('crash_record_detail.html', record=result)
         else:
-            # Flask use jinja2 as the default html template language
-            if key_value_pair[0] == 'id':
-                return render_template('crash_record_detail.html', record=result)
-            else:
-                return render_template('crash_report.html', entries=result)
+            return render_template('crash_report.html', entries=result)
+
     else:
         return 'illegal argument numbers, need to be /crashtracker/show/all or /crashtracker/show/key/value'
 
