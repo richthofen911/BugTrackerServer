@@ -14,7 +14,7 @@ db_engine = create_engine('mysql://root:qwer1234@localhost/my_util_services')
 Base.metadata.create_all(db_engine, checkfirst=True)
 
 db_session = sessionmaker(bind=db_engine)
-my_db_session = db_session()
+
 
 
 @app.route('/')
@@ -40,6 +40,7 @@ def show_dashboard():
 
 @app.route('/crashtracker/show/<path:query_filter>', methods=['GET'])
 def show_crash_report(query_filter):
+    my_db_session = db_session()
     key_value_pair = query_filter.split('/')
     if len(key_value_pair) <= 2:
         key = key_value_pair[0]
@@ -64,6 +65,7 @@ def show_crash_report(query_filter):
 
 @app.route('/crashtracker/report', methods=['POST'])
 def report_bug():
+    my_db_session = db_session()
     time_formatted = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     crash_record = CrashRecord(
         timestamp=time_formatted,
