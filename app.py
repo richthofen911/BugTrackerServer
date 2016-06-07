@@ -46,11 +46,11 @@ def show_crash_report(query_filter):
         if key == 'all':
             result = my_db_session.query(CrashRecord).order_by(CrashRecord.id)
         else:
-            key = getattr(CrashRecord, key_value_pair[0], None)
-            if key is None:
+            attr = getattr(CrashRecord, key_value_pair[0], None)
+            if attr is None:
                 return key_value_pair[0] + " is not a column"
             else:
-                result = my_db_session.query(CrashRecord).filter(key == key_value_pair[1])
+                result = my_db_session.query(CrashRecord).filter(attr == key_value_pair[1])
         if result.count() == 0:
             return 'no record found'
         elif key == 'id':
