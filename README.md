@@ -6,5 +6,5 @@ Provide some utility services, including:<br>
 
 need Flask, SqlAlchemy
 MySQL-python on rpm system or python-mysqldb on apt-get system
-current working server http://159.203.36.215:3999/
+current working server http://159.203.26.51:3999/
 
