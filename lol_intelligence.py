@@ -15,5 +15,5 @@ def call_api(api, *params):
     response = requests.get(url_base + api_filled + '?api_key=' + my_api_key)
     return response.text.encode('ascii', 'ignore')
 
-resp = call_api(api_summoner, 'NA', 'Richthofen911')
-print(resp)
+current_game_json = call_api(api_summoner, 'NA1', '43310476')
+participants = json.loads(current_game_json)
