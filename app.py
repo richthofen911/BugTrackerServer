@@ -5,6 +5,8 @@ from sqlalchemy.orm import sessionmaker
 
 from datetime import datetime
 import time
+import subprocess
+import pysftp
 
 from models.crash_record import Base, CrashRecord
 
@@ -32,11 +34,30 @@ def sign_in():
     elif request.method == 'GET':
         return render_template('sign_in.html')
 
-
 @app.route('/dashboard', methods=['GET'])
 def show_dashboard():
     return render_template('dashboard.html')
 
+# automatically build a new Proximity App with wanted BundleID and AppName
+@app.route('/autobuild/<path:query_filter>', methods=['GET'])
+def autobuild(query_filter):
+    bundleid_name_pair = query_filter.split('/')
+    if len(bundleid_name_pair) == 2:
+        bundleid = bundleid_name_pair[0]
+        appname = bundleid_name_pair[1]
+        result_build = subprocess.Popen("/home/admin/Programming/project/proPython/MyUtilServices/build_app.sh " + bundleid + " " + appname, shell=True, stdout=subprocess.PIPE).stdout.read()
+
+        my_cnopts = pysftp.CnOpts()
+        my_cnopts.hostkeys.load('/home/admin/.ssh/known_hosts')
+        sftp = pysftp.Connection('159.203.3.82', username='root', password='f264fecd50999999', cnopts=my_cnopts)
+        sftp.chdir('/var/www/html/apps')
+        sftp.put('/home/admin/Proximity_derivative/' + appname + '.apk')
+        sftp.close
+
+        return result_build + '\n successfully upload the file'
+    else:
+        
+        return 'illegal argument numbers'
 
 @app.route('/crashtracker/show/<path:query_filter>', methods=['GET'])
 def show_crash_report(query_filter):
